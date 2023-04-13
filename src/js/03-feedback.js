@@ -5,23 +5,20 @@ function feedbackForm() {
   const emailInput = document.querySelector('input[type="email"]');
   const messageTextarea = document.querySelector('textarea');
 
-  form.addEventListener(
-    'input',
-    throttle(function (event) {
-      try {
-        const feedbackFormState =
-          JSON.parse(localStorage.getItem('feedback-form-state')) || {};
-        feedbackFormState.email = emailInput.value;
-        feedbackFormState.message = messageTextarea.value;
-        localStorage.setItem(
-          'feedback-form-state',
-          JSON.stringify(feedbackFormState)
-        );
-      } catch (err) {
-        console.error(err);
-      }
-    }, 500)
-  );
+  form.addEventListener('input', function (event) {
+    try {
+      const feedbackFormState =
+        JSON.parse(localStorage.getItem('feedback-form-state')) || {};
+      feedbackFormState.email = emailInput.value;
+      feedbackFormState.message = messageTextarea.value;
+      localStorage.setItem(
+        'feedback-form-state',
+        JSON.stringify(feedbackFormState)
+      );
+    } catch (err) {
+      console.error(err);
+    }
+  });
 
   if (localStorage.getItem('feedback-form-state')) {
     try {
@@ -49,3 +46,21 @@ function feedbackForm() {
 }
 
 feedbackForm();
+
+// form.addEventListener(
+//   'input',
+//   throttle(function (event) {
+//     try {
+//       const feedbackFormState =
+//         JSON.parse(localStorage.getItem('feedback-form-state')) || {};
+//       feedbackFormState.email = emailInput.value;
+//       feedbackFormState.message = messageTextarea.value;
+//       localStorage.setItem(
+//         'feedback-form-state',
+//         JSON.stringify(feedbackFormState)
+//       );
+//     } catch (err) {
+//       console.error(err);
+//     }
+//   }, 500)
+// );
