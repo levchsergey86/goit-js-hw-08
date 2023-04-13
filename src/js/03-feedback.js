@@ -1,24 +1,42 @@
-// import throttle from 'lodash/throttle';
+import throttle from 'lodash.throttle';
 
 function feedbackForm() {
   const form = document.querySelector('.feedback-form');
   const emailInput = document.querySelector('input[type="email"]');
   const messageTextarea = document.querySelector('textarea');
 
-  form.addEventListener('input', function (event) {
-    try {
-      const feedbackFormState =
-        JSON.parse(localStorage.getItem('feedback-form-state')) || {};
-      feedbackFormState.email = emailInput.value;
-      feedbackFormState.message = messageTextarea.value;
-      localStorage.setItem(
-        'feedback-form-state',
-        JSON.stringify(feedbackFormState)
-      );
-    } catch (err) {
-      console.error(err);
-    }
-  });
+  form.addEventListener(
+    'input',
+    throttle(function (event) {
+      try {
+        const feedbackFormState =
+          JSON.parse(localStorage.getItem('feedback-form-state')) || {};
+        feedbackFormState.email = emailInput.value;
+        feedbackFormState.message = messageTextarea.value;
+        localStorage.setItem(
+          'feedback-form-state',
+          JSON.stringify(feedbackFormState)
+        );
+      } catch (err) {
+        console.error(err);
+      }
+    }, 500)
+  );
+
+  // form.addEventListener('input', function (event) {
+  //   try {
+  //     const feedbackFormState =
+  //       JSON.parse(localStorage.getItem('feedback-form-state')) || {};
+  //     feedbackFormState.email = emailInput.value;
+  //     feedbackFormState.message = messageTextarea.value;
+  //     localStorage.setItem(
+  //       'feedback-form-state',
+  //       JSON.stringify(feedbackFormState)
+  //     );
+  //   } catch (err) {
+  //     console.error(err);
+  //   }
+  // });
 
   if (localStorage.getItem('feedback-form-state')) {
     try {
