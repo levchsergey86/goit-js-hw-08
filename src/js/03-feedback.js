@@ -48,4 +48,4 @@ function feedbackForm() {
   });
 }
 
-feedbackForm()
+feedbackForm();
