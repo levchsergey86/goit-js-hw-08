@@ -5,6 +5,35 @@ function feedbackForm() {
   const emailInput = document.querySelector('input[type="email"]');
   const messageTextarea = document.querySelector('textarea');
 
+  form.addEventListener('submit', function (event) {
+    event.preventDefault();
+    try {
+      const email = emailInput.value;
+      const message = messageTextarea.value;
+      if (email && message) {
+        console.log({ email, message });
+        localStorage.removeItem('feedback-form-state');
+        emailInput.value = '';
+        messageTextarea.value = '';
+      } else {
+        console.log('Заповніть обидва поля!');
+        throw new Error('Заповніть обидва поля!'); 
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  });
+
+  if (localStorage.getItem('feedback-form-state')) {
+    try {
+      const formData = JSON.parse(localStorage.getItem('feedback-form-state'));
+      emailInput.value = formData.email;
+      messageTextarea.value = formData.message;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
   form.addEventListener(
     'input',
     throttle(function (event) {
@@ -22,31 +51,6 @@ function feedbackForm() {
       }
     }, 500)
   );
-
-  if (localStorage.getItem('feedback-form-state')) {
-    try {
-      const formData = JSON.parse(localStorage.getItem('feedback-form-state'));
-      emailInput.value = formData.email;
-      messageTextarea.value = formData.message;
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  form.addEventListener('submit', function (event) {
-    event.preventDefault();
-    try {
-      const email = emailInput.value;
-      const message = messageTextarea.value;
-      console.log({ email, message });
-      localStorage.removeItem('feedback-form-state');
-      emailInput.value = '';
-      messageTextarea.value = '';
-    } catch (err) {
-      console.error(err);
-    }
-  });
 }
 
 feedbackForm();
-
